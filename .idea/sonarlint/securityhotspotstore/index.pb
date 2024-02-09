@@ -26,3 +26,9 @@ Q.idea/sonarlint/securityhotspotstore/f/0/f07866736216be0ee2aba49e392191aeae700a
 Q.idea/sonarlint/securityhotspotstore/3/6/3614eacf9876a9bd53490b828e2b3634bca39bf9,7/d/7dbf3e97dd393091a7cfb53b7d96cc039ff6ed0f
 9
 	README.MD,9/6/968e80af9562e09cebe594968b130076952eafe1
+g
+7src/main/java/by/aston/collection/impl/MyArrayList.java,8/1/814cc94ffa765e524500142caf360e036dfd1544
+h
+8src/main/java/by/aston/collection/impl/MyLinkedList.java,0/e/0e6b404c34be356233f6687dd7cbdf840183607f
+]
+-src/main/java/by/aston/collection/MyList.java,e/5/e5f1bd3fdf7fc25650d12eb179148642635f4456
