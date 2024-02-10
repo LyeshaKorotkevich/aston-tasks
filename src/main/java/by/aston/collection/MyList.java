@@ -7,9 +7,13 @@ public interface MyList<T> {
 
     void remove(int index);
 
-    boolean addAll(MyList<? extends T> elements);
+    void addAll(MyList<? extends T> elements);
 
     void sort();
 
     int size();
+
+    boolean isEmpty();
+
+    boolean contains(T element);
 }

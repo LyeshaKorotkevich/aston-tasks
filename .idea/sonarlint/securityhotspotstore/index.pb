@@ -32,3 +32,5 @@ h
 8src/main/java/by/aston/collection/impl/MyLinkedList.java,0/e/0e6b404c34be356233f6687dd7cbdf840183607f
 ]
 -src/main/java/by/aston/collection/MyList.java,e/5/e5f1bd3fdf7fc25650d12eb179148642635f4456
+k
+;src/test/java/by/aston/collection/impl/MyArrayListTest.java,e/9/e909d3ef5d89c0d39b6954070f36cd91b5ba4230

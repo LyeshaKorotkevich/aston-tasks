@@ -20,13 +20,13 @@ public class MyArrayList<T> implements MyList<T> {
         if (capacity > 0) {
             this.array = (T[]) new Object[capacity];
         } else {
-            throw new IllegalArgumentException("Illegal Capacity: "+ capacity);
+            throw new IllegalArgumentException("Illegal Capacity: " + capacity);
         }
     }
 
     @SuppressWarnings("unchecked")
     public MyArrayList(MyList<? extends T> collection) {
-        if (collection.size() != 0) {
+        if (!collection.isEmpty()) {
             this.array = (T[]) new Object[collection.size()];
             this.addAll(collection);
         } else {
@@ -58,9 +58,9 @@ public class MyArrayList<T> implements MyList<T> {
     }
 
     @Override
-    public boolean addAll(MyList<? extends T> elements) {
-        if (elements == null || elements.size() == 0) {
-            return false;
+    public void addAll(MyList<? extends T> elements) {
+        if (elements == null || elements.isEmpty()) {
+            return;
         }
 
         ensureCapacity(size + elements.size());
@@ -68,7 +68,6 @@ public class MyArrayList<T> implements MyList<T> {
         for (int i = 0; i < elements.size(); i++) {
             add(elements.get(i));
         }
-        return true;
     }
 
     @SuppressWarnings("unchecked")
@@ -85,6 +84,21 @@ public class MyArrayList<T> implements MyList<T> {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    @Override
+    public boolean contains(T element) {
+        for (int i = 0; i < size; i++) {
+            if (Objects.equals(element, array[i])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -107,15 +121,9 @@ public class MyArrayList<T> implements MyList<T> {
         return result;
     }
 
-    @Override
-    public String toString() {
-        return Arrays.toString(array);
-    }
-
-
     @SuppressWarnings("unchecked")
     private T[] expand() {
-        T[] newArray = (T[]) new Object[array.length*2];
+        T[] newArray = (T[]) new Object[array.length * 2];
         System.arraycopy(array, 0, newArray, 0, array.length);
         return newArray;
     }
