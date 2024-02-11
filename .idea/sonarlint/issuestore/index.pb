@@ -34,3 +34,11 @@ h
 -src/main/java/by/aston/collection/MyList.java,e/5/e5f1bd3fdf7fc25650d12eb179148642635f4456
 k
 ;src/test/java/by/aston/collection/impl/MyArrayListTest.java,e/9/e909d3ef5d89c0d39b6954070f36cd91b5ba4230
+[
++src/main/java/by/aston/collection/Util.java,b/e/be9121fbefc4ca97f98927f64c9ef9578497f5a9
+d
+4src/main/java/by/aston/collection/MyCollections.java,c/0/c038510dad010538293ecfde22b498fa9ad284ad
+a
+1src/test/java/by/aston/collection/MyListTest.java,6/9/69073d37c16ecbb6c411af760ff9881785b0d115
+l
+<src/test/java/by/aston/collection/impl/MyLinkedListTest.java,5/b/5bd09446917c0d7f968b8e6f208057446c0ace44

@@ -4,30 +4,40 @@ import by.aston.collection.MyList;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class MyArrayListTest {
+class MyLinkedListTest {
 
     @Nested
     class TestConstructors {
 
         @Test
-        void testNegativeCapacityConstructor() {
-            assertThrows(IllegalArgumentException.class, () -> new MyArrayList<>(-5));
+        void testEmptyConstructor() {
+            // given
+            MyList<Integer> list = new MyLinkedList<>();
+
+            // then
+            assertTrue(list.isEmpty());
+            assertEquals(0, list.size());
         }
 
         @Test
         void testCollectionConstructor() {
             // given
-            MyList<Integer> collection = new MyArrayList<>();
+            MyList<Integer> collection = new MyLinkedList<>();
             collection.add(1);
             collection.add(2);
             collection.add(3);
 
             // when
-            MyList<Integer> list = new MyArrayList<>(collection);
+            MyList<Integer> list = new MyLinkedList<>(collection);
 
             // then
+            assertFalse(list.isEmpty());
             assertEquals(collection.size(), list.size());
             for (int i = 0; i < collection.size(); i++) {
                 assertEquals(collection.get(i), list.get(i));
@@ -39,34 +49,28 @@ class MyArrayListTest {
     class TestAdd {
 
         @Test
-        void addShouldNotExpandArray() {
+        void addShouldIncreaseSize() {
             // given
-            MyArrayList<Integer> list = new MyArrayList<>();
-            int expected = 1;
-
-            // when
-            list.add(2);
-            int actual = list.size();
-
-            // then
-            assertEquals(expected, actual);
-        }
-
-        @Test
-        void addShouldExpandArray() {
-            // given
-            MyArrayList<Integer> list = new MyArrayList<>(3);
-            int expected = 4;
+            MyList<Integer> list = new MyLinkedList<>();
 
             // when
             list.add(1);
-            list.add(2);
-            list.add(3);
-            list.add(4);
-            int actual = list.size();
 
             // then
-            assertEquals(expected, actual);
+            assertFalse(list.isEmpty());
+            assertEquals(1, list.size());
+        }
+
+        @Test
+        void addShouldAddElementToEnd() {
+            // given
+            MyLinkedList<Integer> list = new MyLinkedList<>();
+
+            // when
+            list.add(1);
+
+            // then
+            assertEquals(1, list.get(0));
         }
     }
 
@@ -76,7 +80,7 @@ class MyArrayListTest {
         @Test
         void addAtIndexShouldInsertElement() {
             // given
-            MyArrayList<Integer> list = new MyArrayList<>();
+            MyList<Integer> list = new MyLinkedList<>();
             list.add(1);
             list.add(3);
             int index = 1;
@@ -94,13 +98,13 @@ class MyArrayListTest {
         @Test
         void addAtIndexShouldThrowExceptionForInvalidIndex() {
             // given
-            MyArrayList<Integer> list = new MyArrayList<>();
+            MyList<Integer> list = new MyLinkedList<>();
             list.add(1);
             list.add(2);
             int invalidIndex = 3;
             int elementToAdd = 3;
 
-            // when, then
+            // then
             assertThrows(IndexOutOfBoundsException.class, () -> list.add(invalidIndex, elementToAdd));
         }
     }
@@ -109,28 +113,29 @@ class MyArrayListTest {
     class TestGet {
 
         @Test
-        void getShouldReturnInteger() {
+        void getShouldReturnElementAtIndex() {
             // given
-            MyArrayList<Integer> list = new MyArrayList<>();
+            MyList<Integer> list = new MyLinkedList<>();
             list.add(1);
             list.add(2);
             list.add(3);
-            int expected = 3;
-
-            // when
-            int actual = list.get(2);
 
             // then
-            assertEquals(expected, actual);
+            assertEquals(1, list.get(0));
+            assertEquals(2, list.get(1));
+            assertEquals(3, list.get(2));
         }
 
         @Test
-        void getShouldThrowExceptionWhenInvalidIndex() {
+        void getShouldThrowExceptionForInvalidIndex() {
             // given
-            MyArrayList<Integer> list = new MyArrayList<>(3);
+            MyList<Integer> list = new MyLinkedList<>();
+            list.add(1);
+            list.add(2);
+            list.add(3);
 
-            // when, then
-            assertThrows(IndexOutOfBoundsException.class, () -> list.get(1));
+            // then
+            assertThrows(IndexOutOfBoundsException.class, () -> list.get(3));
         }
     }
 
@@ -138,54 +143,32 @@ class MyArrayListTest {
     class TestRemove {
 
         @Test
-        void removeShouldRemoveElementInTheMiddle() {
+        void removeShouldRemoveElementAtIndex() {
             // given
-            MyArrayList<Integer> list = new MyArrayList<>();
+            MyList<Integer> list = new MyLinkedList<>();
             list.add(1);
             list.add(2);
             list.add(3);
-            int expectedSize = 2;
 
             // when
             list.remove(1);
 
             // then
-            assertEquals(expectedSize, list.size());
+            assertEquals(2, list.size());
+            assertEquals(1, list.get(0));
             assertEquals(3, list.get(1));
         }
 
         @Test
-        void removeShouldRemoveElementInTheEnd() {
+        void removeShouldThrowExceptionForInvalidIndex() {
             // given
-            MyArrayList<Integer> list = new MyArrayList<>();
+            MyList<Integer> list = new MyLinkedList<>();
             list.add(1);
             list.add(2);
             list.add(3);
-            int expectedSize = 2;
-
-            // when
-            list.remove(2);
 
             // then
-            assertEquals(expectedSize, list.size());
-            assertThrows(IndexOutOfBoundsException.class, () -> list.get(2));
-        }
-
-        @Test
-        void removeShouldRemoveElementInTheStart() {
-            // given
-            MyArrayList<Integer> list = new MyArrayList<>();
-            list.add(1);
-            list.add(2);
-            list.add(3);
-            int expectedSize = 2;
-
-            // when
-            list.remove(0);
-
-            // then
-            assertEquals(expectedSize, list.size());
-            assertEquals(2, list.get(0));
+            assertThrows(IndexOutOfBoundsException.class, () -> list.remove(3));
         }
     }
 
@@ -193,20 +176,19 @@ class MyArrayListTest {
     class TestAddAll {
 
         @Test
-        void addAllShouldAddElementsFromCollection() {
+        void addAllShouldAddAllElementsFromCollection() {
             // given
-            MyArrayList<Integer> list = new MyArrayList<>();
-            MyArrayList<Integer> collection = new MyArrayList<>();
+            MyList<Integer> list = new MyLinkedList<>();
+            MyList<Integer> collection = new MyArrayList<>();
             collection.add(1);
             collection.add(2);
             collection.add(3);
-            int expectedSize = 3;
 
             // when
             list.addAll(collection);
 
             // then
-            assertEquals(expectedSize, list.size());
+            assertEquals(3, list.size());
             assertEquals(1, list.get(0));
             assertEquals(2, list.get(1));
             assertEquals(3, list.get(2));
@@ -215,66 +197,52 @@ class MyArrayListTest {
 
     @Nested
     class TestIsEmpty {
-        @Test
-        void isEmptyShouldReturnTrue() {
-            // given
-            MyArrayList<Integer> list = new MyArrayList<>();
-            boolean expected = true;
 
-            // when
-            boolean actual = list.isEmpty();
+        @Test
+        void isEmptyShouldReturnTrueForEmptyList() {
+            // given
+            MyList<Integer> list = new MyLinkedList<>();
 
             // then
-            assertEquals(expected, actual);
+            assertTrue(list.isEmpty());
         }
 
         @Test
-        void isEmptyShouldReturnFalse() {
+        void isEmptyShouldReturnFalseForNonEmptyList() {
             // given
-            MyArrayList<Integer> list = new MyArrayList<>();
+            MyList<Integer> list = new MyLinkedList<>();
             list.add(1);
-            boolean expected = false;
-
-            // when
-            boolean actual = list.isEmpty();
 
             // then
-            assertEquals(expected, actual);
+            assertFalse(list.isEmpty());
         }
     }
 
     @Nested
     class TestContains {
+
         @Test
-        void containsShouldReturnTrue() {
+        void containsShouldReturnTrueIfElementExists() {
             // given
-            MyArrayList<Integer> list = new MyArrayList<>();
+            MyList<Integer> list = new MyLinkedList<>();
             list.add(1);
             list.add(2);
             list.add(3);
-            boolean expected = true;
-
-            // when
-            boolean actual = list.contains(1);
 
             // then
-            assertEquals(expected, actual);
+            assertTrue(list.contains(2));
         }
 
         @Test
-        void containsShouldReturnFalse() {
+        void containsShouldReturnFalseIfElementDoesNotExist() {
             // given
-            MyArrayList<Integer> list = new MyArrayList<>();
+            MyList<Integer> list = new MyLinkedList<>();
             list.add(1);
             list.add(2);
             list.add(3);
-            boolean expected = false;
-
-            // when
-            boolean actual = list.contains(4);
 
             // then
-            assertEquals(expected, actual);
+            assertFalse(list.contains(4));
         }
     }
 
@@ -284,11 +252,11 @@ class MyArrayListTest {
         @Test
         void equalsShouldReturnTrueForEqualLists() {
             // given
-            MyArrayList<Integer> list1 = new MyArrayList<>();
+            MyList<Integer> list1 = new MyLinkedList<>();
             list1.add(1);
             list1.add(2);
             list1.add(3);
-            MyArrayList<Integer> list2 = new MyArrayList<>();
+            MyList<Integer> list2 = new MyLinkedList<>();
             list2.add(1);
             list2.add(2);
             list2.add(3);
@@ -300,10 +268,10 @@ class MyArrayListTest {
         @Test
         void equalsShouldReturnFalseForDifferentLists() {
             // given
-            MyArrayList<Integer> list1 = new MyArrayList<>();
+            MyList<Integer> list1 = new MyLinkedList<>();
             list1.add(1);
             list1.add(2);
-            MyArrayList<Integer> list2 = new MyArrayList<>();
+            MyList<Integer> list2 = new MyLinkedList<>();
             list2.add(1);
             list2.add(3);
 
@@ -318,11 +286,11 @@ class MyArrayListTest {
         @Test
         void hashCodeShouldBeEqualForEqualLists() {
             // given
-            MyArrayList<Integer> list1 = new MyArrayList<>();
+            MyList<Integer> list1 = new MyLinkedList<>();
             list1.add(1);
             list1.add(2);
             list1.add(3);
-            MyArrayList<Integer> list2 = new MyArrayList<>();
+            MyList<Integer> list2 = new MyLinkedList<>();
             list2.add(1);
             list2.add(2);
             list2.add(3);

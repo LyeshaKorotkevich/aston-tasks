@@ -1,6 +1,7 @@
 package by.aston.collection.impl;
 
 import by.aston.collection.MyList;
+import by.aston.collection.Util;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -43,14 +44,28 @@ public class MyArrayList<T> implements MyList<T> {
     }
 
     @Override
+    public void add(int index, T element) {
+        Util.checkIndex(index, size);
+
+        if (size >= array.length) {
+            array = expand();
+        }
+
+        System.arraycopy(array, index, array, index + 1, size - index);
+
+        array[index] = element;
+        size++;
+    }
+
+    @Override
     public T get(int index) {
-        checkIndex(index, size);
+        Util.checkIndex(index, size);
         return array[index];
     }
 
     @Override
     public void remove(int index) {
-        checkIndex(index, size);
+        Util.checkIndex(index, size);
         for (int i = index; i < size - 1; i++) {
             array[i] = array[i + 1];
         }
@@ -67,22 +82,6 @@ public class MyArrayList<T> implements MyList<T> {
 
         for (int i = 0; i < elements.size(); i++) {
             add(elements.get(i));
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    public void sort() {
-        boolean notSorted = true;
-        for (int i = 0; i < array.length - 1 && notSorted; i++) {
-            notSorted = false;
-            for (int j = 0; j < array.length - i - 1; j++) {
-                if (((Comparable<? super T>) array[j]).compareTo(array[j + 1]) > 0) {
-                    T temp = array[j];
-                    array[j] = array[j + 1];
-                    array[j + 1] = temp;
-                    notSorted = true;
-                }
-            }
         }
     }
 
@@ -111,7 +110,11 @@ public class MyArrayList<T> implements MyList<T> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MyArrayList<?> that = (MyArrayList<?>) o;
-        return size == that.size && Arrays.equals(array, that.array);
+        if (size != that.size) return false;
+        for (int i = 0; i < size; i++) {
+            if (!Objects.equals(array[i], that.array[i])) return false;
+        }
+        return true;
     }
 
     @Override
@@ -121,17 +124,25 @@ public class MyArrayList<T> implements MyList<T> {
         return result;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < size; i++) {
+            if (i > 0) {
+                sb.append(", ");
+            }
+            sb.append(array[i]);
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
     @SuppressWarnings("unchecked")
     private T[] expand() {
         T[] newArray = (T[]) new Object[array.length * 2];
         System.arraycopy(array, 0, newArray, 0, array.length);
         return newArray;
-    }
-
-    private void checkIndex(int index, int size) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException(index);
-        }
     }
 
     private void ensureCapacity(int minCapacity) {
