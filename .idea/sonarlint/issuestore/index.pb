@@ -24,3 +24,11 @@ X
 Q.idea/sonarlint/securityhotspotstore/f/0/f07866736216be0ee2aba49e392191aeae700a35,2/5/25f6469773b9f3ebb994178c1114a60412389f58
 Å
 Q.idea/sonarlint/securityhotspotstore/3/6/3614eacf9876a9bd53490b828e2b3634bca39bf9,7/d/7dbf3e97dd393091a7cfb53b7d96cc039ff6ed0f
+_
+/src/main/java/by/aston/PuttingIntoPractice.java,9/5/95c0f77bb2b32e38e5972bd41dbcfd786272bf0d
+R
+"src/main/java/by/aston/Trader.java,f/d/fdca1004f44c9cc6c915f57f9503ff2596cd2293
+W
+'src/main/java/by/aston/Transaction.java,b/a/ba7219e5c9a23f0912d02b5a4104301581d04804
+S
+#src/main/java/by/aston/homework.txt,8/1/814b0a18a5425697be8394429ee874238456ebf4
